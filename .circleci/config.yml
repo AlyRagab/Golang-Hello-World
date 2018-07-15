@@ -11,8 +11,7 @@ jobs:
            name: Install Docker
            command: |
               apt-get update
-              apt-get install -y apk
-              apk add -U docker
+              apt-get install docker-ce
        - run:
            name: Build Binary
            command: |
