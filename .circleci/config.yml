@@ -11,7 +11,7 @@ jobs:
        - run:
            name: Install Docker
            command: |
-              echo "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee -a /etc/apt/sources.list.d/docker.list
+              echo "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee -a /etc/apt/sources.list.d/docker.list
               apt-get update 
               apt-get -y install docker-ce
 
