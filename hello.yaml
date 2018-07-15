@@ -1,4 +1,4 @@
-piVersion: extensions/v1beta1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: hello
@@ -15,7 +15,6 @@ spec:
        ports:
        - name: hello
          containerPort: 8080
-
 ---
 apiVersion: v1
 kind: Service
@@ -28,5 +27,4 @@ spec:
     targetPort: 8080
   selector:
    app: hello
-  type: LoadBalancer
-~                        
+  type: LoadBalancer                      
