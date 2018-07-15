@@ -17,9 +17,9 @@ jobs:
                echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
                apt-get update
                apt-get install -y kubectl
-         - run:
-             name: Install Docker
-             command: |
+        - run:
+            name: Install Docker
+            command: |
                  curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
                  add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian/dists/stretch/stable/ "
                  apt-get update
