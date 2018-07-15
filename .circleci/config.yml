@@ -7,19 +7,18 @@ jobs:
      steps:
        - checkout
        - setup_docker_engine
+       
        - run:
            name: Install Docker
            command: |
-              apt-get update
-              apt-get install docker-ce
-       - run:
-           name: Build Binary
-           command: |
-              docker build -t hello -f Dockerfile.Build .
-              docker run --rm hello .
+              echo "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee -a /etc/apt/sources.list.d/docker.list
+              apt-get update 
+              apt-get -y install docker-ce
+
        - run:
            name: Build Image
            command: docker build -t hello .
+           
        - run:
            name: Install kubectl
            command: |
