@@ -9,21 +9,16 @@ jobs:
        - setup_docker_engine
            
        - run:
-           name: Install kubectl
+           name: Install Tools
            command: |
                apt-get update && apt-get install -y apt-transport-https
                curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+               curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+               add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian/dists/stretch/stable/ "
                touch /etc/apt/sources.list.d/kubernetes.list
                echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
                apt-get update
-               apt-get install -y kubectl
-        - run:
-            name: Install Docker
-            command: |
-                 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-                 add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian/dists/stretch/stable/ "
-                 apt-get update
-                 apt-get install -y docker-ce
+               apt-get install -y kubectl docker-ce
        - run:
            name: Build Image
            command: docker build -t hello .
