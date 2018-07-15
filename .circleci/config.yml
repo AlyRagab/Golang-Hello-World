@@ -9,7 +9,10 @@ jobs:
        - setup_docker_engine
        - run:
            name: Install Docker
-           command: apk add -U docker
+           command: |
+              apt-get update
+              apt-get install -y apk
+              apk add -U docker
        - run:
            name: Build Binary
            command: |
