@@ -12,6 +12,7 @@ spec:
      containers:
      - name: hello
        image: alycert/hello
+       imagePullPolicy: "Always"
        ports:
        - name: hello
          containerPort: 8080
