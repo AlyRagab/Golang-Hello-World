@@ -13,15 +13,29 @@ jobs:
                apt-get update && apt-get install -y apt-transport-https sudo software-properties-common
                curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
                curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-               echo " deb https://apt.dockerproject.org/repo debian-stretch main " | tee -a /etc/apt/sources.list 
+               echo 'deb https://apt.dockerproject.org/repo debian-stretch main' >> /etc/apt/sources.list
+               apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys F76221572C52609D
                touch /etc/apt/sources.list.d/kubernetes.list
                echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
                apt-get update
-               apt-get install -y kubectl docker-ce
+               apt-get install -y kubectl docker-engine
+       
        - run:
            name: Build Image
            command: docker build -t hello .
-       
+       - run:
+            name: Push Image
+            command: |
+               docker login --username=$DOCKER_USER --password=$DOCKER_PASSWORD
+               docker tag hello alycert/hello:latest
+               docker push alycert/hello:latest
+       - run:
+           command: | 
+               kubectl config set-credentials ${KUBE_CLUSTER} --username=${KUBE_USER} --password=${KUBE_PASSWORD}
+               kubectl config set-cluster ${KUBE_CLUSTER} --server=https://api.${KUBE_CLUSTER}  --insecure-skip-tls-verify
+               kubectl config set-context ${KUBE_CLUSTER} --cluster=${KUBE_CLUSTER} --user=${KUBE_CLUSTER} --namespace=default
+               kubectl config use-context ${KUBE_CLUSTER}  
+
        - run:
             name: Deploy Kubernetes
             command: kubectl apply -f hello.yaml
