@@ -6,7 +6,11 @@ jobs:
      steps:
        - checkout
        - setup_docker_engine
-           
+
+        - run:
+           name: get variables
+           command: env
+
        - run:
            name: Install Tools
            command: |
@@ -22,6 +26,10 @@ jobs:
        - run:
            name: Build Image
            command: docker build -t hello .
+        - run:
+           name: get variables
+           command: env
+          
        - run:
             name: Push Image
             command: |
