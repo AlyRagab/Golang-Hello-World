@@ -26,10 +26,7 @@ jobs:
        - run:
            name: Build Image
            command: docker build -t hello .
-        - run:
-           name: get variables
-           command: env
-          
+    
        - run:
             name: Push Image
             command: |
