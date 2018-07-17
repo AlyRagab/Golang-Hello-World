@@ -7,7 +7,7 @@ jobs:
        - checkout
        - setup_docker_engine
 
-        - run:
+       - run:
            name: get variables
            command: env
 
