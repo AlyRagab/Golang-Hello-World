@@ -8,10 +8,6 @@ jobs:
        - setup_docker_engine
 
        - run:
-           name: get variables
-           command: env
-
-       - run:
            name: Install Tools
            command: |
                apt-get update && apt-get install -y apt-transport-https sudo software-properties-common
@@ -31,8 +27,8 @@ jobs:
             name: Push Image
             command: |
                docker login --username=$DOCKER_USER --password=$DOCKER_PASSWORD
-               docker tag hello alycert/hello:latest
-               docker push alycert/hello:latest
+               docker tag hello alycert/hello:${CIRCLE_SHA1:0:10}
+               docker push alycert/hello:${CIRCLE_SHA1:0:10}
        - run:
            command: | 
                kubectl config set-credentials ${KUBE_CLUSTER} --username=${KUBE_USER} --password=${KUBE_PASSWORD}
