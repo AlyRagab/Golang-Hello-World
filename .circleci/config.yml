@@ -1,23 +1,24 @@
 version: 2
 jobs:
    build:
+     branches:
+       only:
+         - dev
      docker:
        - image: alycert/hello
      steps:
        - checkout
-       - setup_docker_engine
+       - setup_remote_docker
 
        - run:
            name: Install Tools
            command: |
-               apt-get update && apt-get install -y apt-transport-https sudo software-properties-common
-               curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-               echo "deb https://download.docker.com/linux/debian stretch stable" | sudo tee /etc/apt/sources.list.d/docker.list
-               wget --quiet --output-document - https://download.docker.com/linux/debian/gpg  | sudo apt-key add -
-               touch /etc/apt/sources.list.d/kubernetes.list
-               echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
-               apt-get update
-               apt-get install -y kubectl docker-ce
+               sudo apt-get update && sudo apt-get install -y apt-transport-https
+               curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+               sudo touch /etc/apt/sources.list.d/kubernetes.list
+               echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+               sudo apt-get update
+               sudo apt-get install -y kubectl
        
        - run:
            name: Build Image
@@ -32,11 +33,11 @@ jobs:
        - run:
            command: | 
                kubectl config set-credentials ${KUBE_CLUSTER} --username=${KUBE_USER} --password=${KUBE_PASSWORD}
-               kubectl config set-cluster ${KUBE_CLUSTER} --server=https://api.${KUBE_CLUSTER}  --insecure-skip-tls-verify
+               kubectl config set-cluster ${KUBE_CLUSTER} --server=https://api.${KUBE_CLUSTER} --insecure-skip-tls-verify
                kubectl config set-context ${KUBE_CLUSTER} --cluster=${KUBE_CLUSTER} --user=${KUBE_CLUSTER} --namespace=default
-               kubectl config use-context ${KUBE_CLUSTER}  
+               kubectl config use-context ${KUBE_CLUSTER}
 
        - run:
             name: Deploy Kubernetes
-            command: kubectl apply -f hello.yaml
+            command: kubectl set image deployment hello hello=alycert/hello:${CIRCLE_SHA1:0:10}
                
