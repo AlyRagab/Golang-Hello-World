@@ -1,15 +1,14 @@
 version: 2
 jobs:
    build:
+     docker:
+       - image: alycert/hello
      branches:
        only:
          - dev
-     docker:
-       - image: alycert/hello
      steps:
        - checkout
        - setup_remote_docker
-
        - run:
            name: Install Tools
            command: |
