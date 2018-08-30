@@ -4,8 +4,7 @@ jobs:
      docker:
        - image: alycert/hello
      branches:
-       only:
-         - dev
+       only: dev
      steps:
        - checkout
        - setup_remote_docker
