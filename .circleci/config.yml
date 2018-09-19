@@ -7,6 +7,9 @@ jobs:
        steps:
        - checkout
        - setup_remote_docker
+       - add_ssh_keys:
+            fingerprints: 
+            - "obJmmnApIm5QXWbcw2OaXVJLy6AjjQ+xiJN2wJyR0G0"
        
        - run:
            name: Build Image
