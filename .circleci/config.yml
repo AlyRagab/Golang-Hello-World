@@ -24,12 +24,8 @@ jobs:
        - run:
            command: |
                ssh -vv -oStrictHostKeyChecking=no ${USER}@${HOST}
-               kubectl config set-credentials ${KUBE_CLUSTER} --username=${KUBE_USER} --password=${KUBE_PASSWORD}
-               kubectl config set-cluster ${KUBE_CLUSTER} --server=https://api.${KUBE_CLUSTER} --insecure-skip-tls-verify
-               kubectl config set-context ${KUBE_CLUSTER} --cluster=${KUBE_CLUSTER} --user=${KUBE_CLUSTER} --namespace=default
-               kubectl config use-context ${KUBE_CLUSTER}
 
        - run:
-            name: Deploy Kubernetes
+            name: Deploy
             command: kubectl set image deployment hello hello=alycert/hello:${CIRCLE_SHA1:0:10}
                
