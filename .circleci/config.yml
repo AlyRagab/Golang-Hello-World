@@ -23,7 +23,7 @@ jobs:
                docker push alycert/hello:${CIRCLE_SHA1:0:10}
        - run:
            command: |
-               ssh -vv -oStrictHostKeyChecking=no -i ${KEY} ec2-54-171-186-73.eu-west-1.compute.amazonaws.com
+               ssh -vv -oStrictHostKeyChecking=no -i ${KEY} ${USER}@${HOST}
                kubectl config set-credentials ${KUBE_CLUSTER} --username=${KUBE_USER} --password=${KUBE_PASSWORD}
                kubectl config set-cluster ${KUBE_CLUSTER} --server=https://api.${KUBE_CLUSTER} --insecure-skip-tls-verify
                kubectl config set-context ${KUBE_CLUSTER} --cluster=${KUBE_CLUSTER} --user=${KUBE_CLUSTER} --namespace=default
