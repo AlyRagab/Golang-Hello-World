@@ -23,9 +23,5 @@ jobs:
                docker push alycert/hello:${CIRCLE_SHA1:0:10}
        - run:
            command: |
-               ssh -vv -oStrictHostKeyChecking=no ${USER}@${HOST}
-
-       - run:
-            name: Deploy
-            command: kubectl set image deployment hello hello=alycert/hello:${CIRCLE_SHA1:0:10}
+               ssh -oStrictHostKeyChecking=no ${USER}@${HOST} "bash -s" < /go/Golang-Hello-World/deploy.sh
                
