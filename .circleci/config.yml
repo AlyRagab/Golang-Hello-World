@@ -9,7 +9,7 @@ jobs:
        - setup_remote_docker
        - add_ssh_keys:
             fingerprints: 
-            - "gwonOL1ArH+c0D5c3ihCHMKBSMTNGGR5M4uF9ExqA2c"
+            - "8b:85:71:bb:ce:0b:16:d6:dc:9b:ec:aa:b5:43:6c:b5"
        
        - run:
            name: Build Image
