@@ -2,7 +2,8 @@ version: 2
 jobs:
    build:
      docker:
-       - image: alycert/hello
+       - image: circleci/golang:1.11
+       working_directory: /go/Golang-Hello-World
      steps:
        - checkout
        - setup_remote_docker
