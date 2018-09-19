@@ -1,10 +1,10 @@
 version: 2
 jobs:
-   build:
-     docker:
+    build:
+       docker:
        - image: circleci/golang:1.11
        working_directory: /go/Golang-Hello-World
-     steps:
+       steps:
        - checkout
        - setup_remote_docker
        
